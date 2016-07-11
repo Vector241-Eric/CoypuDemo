@@ -130,6 +130,16 @@ CoypuDemo.Calculator = (function() {
             newValue = left - right;
             setCurrentValue(newValue);
         }
+
+        if (currentOperation === "X") {
+            newValue = left * right;
+            setCurrentValue(newValue);
+        }
+
+        if (currentOperation === "/") {
+            newValue = left / right;
+            setCurrentValue(newValue);
+        }
     };
 
     //Operation Button Handlers
@@ -168,8 +178,13 @@ CoypuDemo.Calculator = (function() {
     var subtractHandler = function() {
         handleMathOperation("-");
     };
-    var multiplyHandler = function() {};
-    var divideHandler = function () { };
+
+    var multiplyHandler = function() {
+        handleMathOperation("X");
+    };
+    var divideHandler = function() {
+        handleMathOperation("/");
+    };
 
     var clearHandler = function () {
         clearEverything();
