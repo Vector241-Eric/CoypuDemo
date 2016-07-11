@@ -4,14 +4,32 @@ var CoypuDemo = CoypuDemo || {};
 CoypuDemo.Calculator = (function() {
 
     var displayValue = "" + "0";
-    var leftOperand = 0;
-    var storedRightOperand = 0;
-    var hasStoredRightOperand = false;
+    var leftOperand = 0, hasStoredLeftOperand = false;
+    var rightOperand = 0, hasStoredRightOperand = false;
     var currentOperation = "";
-    var enteredOperation = false;
-    var hasValue = false;
+    var clearDisplayOnNextInput = false;
+    var clearValuesOnNextInput = false;
+    var submitted = false;
 
-    var setDisplayValue = function(value) {
+    var clearRightOperand = function () {
+        hasStoredRightOperand = false;
+    }
+
+    var setRightOperand = function (value) {
+        rightOperand = value;
+        hasStoredRightOperand = true;
+    }
+
+    var clearLeftOperand = function () {
+        hasStoredLeftOperand = false;
+    }
+
+    var setLeftOperand = function (value) {
+        leftOperand = value;
+        hasStoredLeftOperand = true;
+    }
+
+    var setDisplayValue = function (value) {
         displayValue = "" + value;
         document.getElementById("display-value").innerHTML = value;
     };
@@ -23,7 +41,7 @@ CoypuDemo.Calculator = (function() {
         console.log("Current operation " + text);
         setDisplayOperation(text);
         currentOperation = text;
-        enteredOperation = true;
+        clearDisplayOnNextInput = true;
     };
     var setCurrentValue = function(value) {
         console.log("Current value: " + value);
@@ -32,12 +50,25 @@ CoypuDemo.Calculator = (function() {
     var clearDisplay = function() {
         setDisplayValue(0);
         setDisplayOperation("");
+        clearDisplayOnNextInput = false;
     };
 
-    var handleInput = function() {
-        if (enteredOperation) {
+    var clearEverything = function () {
+        clearDisplay();
+        leftOperand = 0;
+        rightOperand = 0;
+        hasStoredRightOperand = false;
+        currentOperation = "";
+        clearDisplayOnNextInput = false;
+        clearValuesOnNextInput = false;
+    }
+
+    var handleInput = function () {
+        if (clearValuesOnNextInput) {
+            clearEverything();
+        }
+        if (clearDisplayOnNextInput) {
             clearDisplay();
-            enteredOperation = false;
         }
 
         var value = $(this).data("inputvalue");
@@ -68,21 +99,35 @@ CoypuDemo.Calculator = (function() {
         return numberValue;
     };
     var completeCurrentOperation = function() {
-        var left, right;
+        var left, right, newValue;
+        if (!hasStoredLeftOperand) {
+            left = getValueFromDisplay();
+            setLeftOperand(left);
+            return;
+        }
+        left = leftOperand;
+
         if (hasStoredRightOperand) {
-            right = storedRightOperand;
+            right = rightOperand;
         } else {
             right = getValueFromDisplay();
         }
-        left = leftOperand;
 
         console.log(left + " " + currentOperation + " " + right);
 
         if (currentOperation === "") {
             setCurrentValue(right);
+            return;
         }
+
         if (currentOperation === "+") {
-            var newValue = left + right;
+            newValue = left + right;
+            setCurrentValue(newValue);
+            return;
+        }
+
+        if (currentOperation === "-") {
+            newValue = left - right;
             setCurrentValue(newValue);
         }
     };
@@ -90,25 +135,46 @@ CoypuDemo.Calculator = (function() {
     //Operation Button Handlers
 
     var submitHandler = function () {
+        submitted = true;
+        //Make sure we aren't repeatedly pressing =
         if (!hasStoredRightOperand) {
-            storedRightOperand = getValueFromDisplay();
+            setRightOperand(getValueFromDisplay());
             hasStoredRightOperand = true;
         }
 
         completeCurrentOperation();
         setDisplayValue("" + leftOperand);
+        clearDisplayOnNextInput = true;
+        clearValuesOnNextInput = true;
     };
-    var addHandler = function() {
+
+    var handleMathOperation = function (operationText) {
+        clearRightOperand();
+        if (submitted) {
+            clearLeftOperand();
+            submitted = false;
+        }
         completeCurrentOperation();
-        setOperation("+");
+        setOperation(operationText);
+
+        //If we push +,-,/,or X after =, then keep the current running value.
+        clearValuesOnNextInput = false;
+    }
+
+    var addHandler = function() {
+        handleMathOperation("+");
     };
-    var subtractHandler = function() {};
+
+    var subtractHandler = function() {
+        handleMathOperation("-");
+    };
     var multiplyHandler = function() {};
-    var divideHandler = function() {};
-    var clearHandler = function() {
-        clearDisplay();
-        leftOperand = 0;
+    var divideHandler = function () { };
+
+    var clearHandler = function () {
+        clearEverything();
     };
+
     var clearEntryHandler = function() {
         clearDisplay();
     };
@@ -135,7 +201,7 @@ CoypuDemo.Calculator = (function() {
     };
 
     var initialize = function() {
-        clearDisplay();
+        clearHandler();
         registerHandlers();
     };
     return {
