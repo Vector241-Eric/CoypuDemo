@@ -39,7 +39,7 @@ namespace FunctionalTests.Web.Tests
                     page.Enter("222");
                     page.Enter("=");
 
-                    page.GetDisplayValue().ShouldEqual("3334");
+                    page.GetDisplayValue().ShouldEqual("333");
                 });
             }
         }
