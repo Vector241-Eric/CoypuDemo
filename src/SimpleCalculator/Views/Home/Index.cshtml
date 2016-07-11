@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Simple Calculator</h1>
+    <p class="lead">This application provides a simple calculator for demonstrating Coypu testing functionality.</p>
+    <p><a href="@Url.Action("Index", "Calculate")" class="btn btn-primary btn-lg">Start Calculating &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Project Home</h2>
+        <p>
+            All project source and documentation is hosted at GitHub.com.
+        </p>
+        <p><a class="btn btn-default" href="https://github.com/Vector241-Eric/CoypuDemo">Learn More &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Coypu</h2>
+        <p>
+            Coypu supports browser automation in .Net to help make tests readable, robust, fast to write and
+            less tightly coupled to the UI. If your tests are littered with sleeps, retries, complex XPath 
+            expressions and IDs dug out of the source with FireBug then Coypu might help.
+        </p>
+        <p><a class="btn btn-default" href="https://github.com/featurist/coypu">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Los Techies</h2>
+        <p>Los Techies is a community of programmers that enjoy writing and discussing good software practices.</p>
+        <p><a class="btn btn-default" href="https://lostechies.com/">Learn more &raquo;</a></p>
+    </div>
+</div>

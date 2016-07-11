@@ -1,0 +1,1 @@
+start src\SimpleCalculator.sln 
