@@ -42,12 +42,10 @@ namespace FunctionalTests.Web.Bases
             else
             {
                 test(GetBrowserSession());
-            }
-        }
 
-        [OneTimeSetUp]
-        public void TestFixtureSetUp()
-        {
+                //Fail the test, because we don't want to check it in this way.
+                Assert.Fail("Test does not cleanup the browser session.");
+            }
         }
     }
 }

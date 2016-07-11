@@ -16,11 +16,32 @@ namespace FunctionalTests.Web.Tests
                 RunTest(browser =>
                 {
                     var page = new CalculatorPage(browser);
+
                     page.Visit();
+                    page.GetDisplayValue().ShouldEqual("0");
+                });
+            }
+        }
 
-                    var displayedValue = browser.FindId("display-value").InnerHTML;
+        [TestFixture]
+        public class When_adding_two_numbers : FunctionalTestBase
+        {
+            [Test]
+            public void Should_display_the_addition_result()
+            {
+                base.CleanupBrowser = false;
 
-                    displayedValue.ShouldEqual("0");
+                RunTest(browser =>
+                {
+                    var page = new CalculatorPage(browser);
+
+                    page.Visit();
+                    page.Enter("111");
+                    page.Enter("+");
+                    page.Enter("222");
+                    page.Enter("=");
+
+                    page.GetDisplayValue().ShouldEqual("333");
                 });
             }
         }

@@ -5,7 +5,7 @@ using FunctionalTests.Web.Extensions;
 
 namespace FunctionalTests.Web.Pages
 {
-    public abstract class PageBase
+    public abstract class PageBase<TPage> where TPage : PageBase<TPage>
     {
         private static readonly string SiteRootUrl = "http://localhost:52033";
 
@@ -27,7 +27,7 @@ namespace FunctionalTests.Web.Pages
 
         private string NavigateUrl => RelativeUrl.ForBaseUrl(SiteRootUrl);
 
-        public void Visit()
+        public TPage Visit()
         {
             Browser.Visit(NavigateUrl);
             var expectedUrl = LocationVerificationUrl.ForBaseUrl(SiteRootUrl).Replace(".", @"\.");
@@ -43,6 +43,8 @@ namespace FunctionalTests.Web.Pages
             {
                 Fail("Could not locate the identifying page elements on the page.");
             }
+
+            return (TPage) this;
         }
 
         protected void Fail(string message)
