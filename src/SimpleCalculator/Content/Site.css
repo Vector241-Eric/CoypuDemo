@@ -22,3 +22,30 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.display-box {
+    border: solid 1px black;
+    display: block;
+    padding: 10px;
+    font-size: 36px;
+    text-align: right;
+}
+
+.display-container {
+    margin-bottom: 15px;
+}
+
+.button-row {
+    margin-bottom: 10px;
+}
+
+.calculator-button {
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.display-box .left-side {
+    display: inline-block;
+    float: left;
+}

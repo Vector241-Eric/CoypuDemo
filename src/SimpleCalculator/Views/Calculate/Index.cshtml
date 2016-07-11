@@ -4,4 +4,84 @@
     ViewBag.Title = "Calculator";
 }
 
-<h2>title</h2>
+@section Scripts {
+    @Scripts.Render("~/bundles/calculator")
+    <script type="text/javascript">
+        $(function () { CoypuDemo.Calculator.initialize();})
+    </script>
+}
+
+<h2>Calculate</h2>
+
+<div id="calculator">
+    <div class="row">
+        <div class="col-md-12 display-container display-box">
+            <span id="display-operation" class="left-side"></span>
+            <span id="display-value">0</span>
+        </div>
+    </div>
+    <div class="row button-row">
+        <div class="col-md-3">
+            <button id="input-7" class="btn btn-primary calculator-button calculator-input" data-inputvalue="7">7</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-8" class="btn btn-primary calculator-button calculator-input" data-inputvalue="8">8</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-9" class="btn btn-primary calculator-button calculator-input" data-inputvalue="9">9</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-divide" class="btn btn-default calculator-button calculator-operation" data-operation="divide">/</button>
+        </div>
+    </div>
+    <div class="row button-row">
+        <div class="col-md-3">
+            <button id="input-4" class="btn btn-primary calculator-button calculator-input" data-inputvalue="4">4</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-5" class="btn btn-primary calculator-button calculator-input" data-inputvalue="5">5</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-6" class="btn btn-primary calculator-button calculator-input" data-inputvalue="6">6</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-multiply" class="btn btn-default calculator-button calculator-operation" data-operation="multiply">X</button>
+        </div>
+    </div>
+    <div class="row button-row">
+        <div class="col-md-3">
+            <button id="input-1" class="btn btn-primary calculator-button calculator-input" data-inputvalue="1">1</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-2" class="btn btn-primary calculator-button calculator-input" data-inputvalue="2">2</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-3" class="btn btn-primary calculator-button calculator-input" data-inputvalue="3">3</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-substract" class="btn btn-default calculator-button calculator-operation" data-operation="substract">-</button>
+        </div>
+    </div>
+    <div class="row button-row">
+        <div class="col-md-3">
+            <button id="input-0" class="btn btn-primary calculator-button calculator-input" data-inputvalue="0">0</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-decimal" class="btn btn-primary calculator-button calculator-input" data-inputvalue=".">.</button>
+        </div>
+        <div class="col-md-6">
+            <button id="input-add" class="btn btn-default calculator-button calculator-operation" data-operation="add">+</button>
+        </div>
+    </div>
+    <div class="row button-row">
+        <div class="col-md-3">
+            <button id="input-clear" class="btn btn-default calculator-button calculator-operation" data-operation="clear">C</button>
+        </div>
+        <div class="col-md-3">
+            <button id="input-clear-entry" class="btn btn-default calculator-button calculator-operation"  data-operation="clearentry">CE</button>
+        </div>
+        <div class="col-md-6">
+            <button id="input-equals" class="btn btn-success calculator-button calculator-operation" data-operation="submit">=</button>
+        </div>
+    </div>
+</div>
