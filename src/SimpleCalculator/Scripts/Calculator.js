@@ -10,6 +10,7 @@ CoypuDemo.Calculator = (function() {
     var clearDisplayOnNextInput = false;
     var clearValuesOnNextInput = false;
     var submitted = false;
+    var isNan = false;
 
     var clearRightOperand = function () {
         hasStoredRightOperand = false;
@@ -58,12 +59,19 @@ CoypuDemo.Calculator = (function() {
         leftOperand = 0;
         rightOperand = 0;
         hasStoredRightOperand = false;
+        hasStoredLeftOperand = false;
         currentOperation = "";
         clearDisplayOnNextInput = false;
         clearValuesOnNextInput = false;
+        submitted = false;
+        isNan = false;
     }
 
     var handleInput = function () {
+        if (isNan) {
+            return;
+        }
+
         if (clearValuesOnNextInput) {
             clearEverything();
         }
@@ -98,6 +106,7 @@ CoypuDemo.Calculator = (function() {
 
         return numberValue;
     };
+
     var completeCurrentOperation = function() {
         var left, right, newValue;
         if (!hasStoredLeftOperand) {
@@ -137,6 +146,12 @@ CoypuDemo.Calculator = (function() {
         }
 
         if (currentOperation === "/") {
+            if (right == 0) {
+                console.log("NaN");
+                isNan = true;
+                setDisplayValue("NaN");
+                return;
+            }
             newValue = left / right;
             setCurrentValue(newValue);
         }
@@ -145,6 +160,9 @@ CoypuDemo.Calculator = (function() {
     //Operation Button Handlers
 
     var submitHandler = function () {
+        if (isNan) {
+            return;
+        }
         submitted = true;
         //Make sure we aren't repeatedly pressing =
         if (!hasStoredRightOperand) {
@@ -153,7 +171,9 @@ CoypuDemo.Calculator = (function() {
         }
 
         completeCurrentOperation();
-        setDisplayValue("" + leftOperand);
+        if (!isNan) {
+            setDisplayValue("" + leftOperand);
+        }
         clearDisplayOnNextInput = true;
         clearValuesOnNextInput = true;
     };
@@ -172,17 +192,29 @@ CoypuDemo.Calculator = (function() {
     }
 
     var addHandler = function() {
+        if (isNan) {
+            return;
+        }
         handleMathOperation("+");
     };
 
     var subtractHandler = function() {
+        if (isNan) {
+            return;
+        }
         handleMathOperation("-");
     };
 
     var multiplyHandler = function() {
+        if (isNan) {
+            return;
+        }
         handleMathOperation("X");
     };
     var divideHandler = function() {
+        if (isNan) {
+            return;
+        }
         handleMathOperation("/");
     };
 
@@ -191,6 +223,9 @@ CoypuDemo.Calculator = (function() {
     };
 
     var clearEntryHandler = function() {
+        if (isNan) {
+            return;
+        }
         clearDisplay();
     };
     var operationHandlerMap = {
