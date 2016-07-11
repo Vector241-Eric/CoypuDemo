@@ -4,7 +4,9 @@ var CoypuDemo = CoypuDemo || {};
 CoypuDemo.Calculator = (function() {
 
     var displayValue = "" + "0";
-    var runningValue = 0;
+    var leftOperand = 0;
+    var storedRightOperand = 0;
+    var hasStoredRightOperand = false;
     var currentOperation = "";
     var enteredOperation = false;
     var hasValue = false;
@@ -16,26 +18,23 @@ CoypuDemo.Calculator = (function() {
 
     var setDisplayOperation = function(text) {
         document.getElementById("display-operation").innerHTML = text;
-    }
-
-    var setOperation = function (text) {
+    };
+    var setOperation = function(text) {
         console.log("Current operation " + text);
         setDisplayOperation(text);
         currentOperation = text;
         enteredOperation = true;
-    }
-
+    };
     var setCurrentValue = function(value) {
         console.log("Current value: " + value);
-        runningValue = value;
-    }
-
-    var clearDisplay = function () {
+        leftOperand = value;
+    };
+    var clearDisplay = function() {
         setDisplayValue(0);
         setDisplayOperation("");
     };
 
-    var handleInput = function () {
+    var handleInput = function() {
         if (enteredOperation) {
             clearDisplay();
             enteredOperation = false;
@@ -58,7 +57,7 @@ CoypuDemo.Calculator = (function() {
         setDisplayValue(newValue);
     };
 
-    var getValueFromDisplay = function(){
+    var getValueFromDisplay = function() {
         var numberValue;
         if (displayValue.includes(".")) {
             numberValue = parseFloat(displayValue);
@@ -67,48 +66,52 @@ CoypuDemo.Calculator = (function() {
         }
 
         return numberValue;
-    }
+    };
+    var completeCurrentOperation = function() {
+        var left, right;
+        if (hasStoredRightOperand) {
+            right = storedRightOperand;
+        } else {
+            right = getValueFromDisplay();
+        }
+        left = leftOperand;
 
-    var add = function(value) {
-        
-    }
+        console.log(left + " " + currentOperation + " " + right);
 
-    var completeCurrentOperation = function () {
-        var currentDisplayedValue = getValueFromDisplay();
         if (currentOperation === "") {
-            setCurrentValue(currentDisplayedValue);
+            setCurrentValue(right);
         }
         if (currentOperation === "+") {
-            var newValue = currentDisplayedValue + runningValue;
+            var newValue = left + right;
             setCurrentValue(newValue);
         }
-    }
+    };
 
     //Operation Button Handlers
 
-    var submitHandler = function() {
-        completeCurrentOperation();
-        setDisplayValue("" + runningValue);
-    }
+    var submitHandler = function () {
+        if (!hasStoredRightOperand) {
+            storedRightOperand = getValueFromDisplay();
+            hasStoredRightOperand = true;
+        }
 
-    var addHandler = function () {
+        completeCurrentOperation();
+        setDisplayValue("" + leftOperand);
+    };
+    var addHandler = function() {
         completeCurrentOperation();
         setOperation("+");
-    }
-
-    var subtractHandler = function (){}
-    var multiplyHandler = function (){}
-    var divideHandler = function (){}
-
-    var clearHandler = function () {
+    };
+    var subtractHandler = function() {};
+    var multiplyHandler = function() {};
+    var divideHandler = function() {};
+    var clearHandler = function() {
         clearDisplay();
-        runningValue = 0;
-    }
-
+        leftOperand = 0;
+    };
     var clearEntryHandler = function() {
         clearDisplay();
-    }
-
+    };
     var operationHandlerMap = {
         submit: submitHandler,
         add: addHandler,
