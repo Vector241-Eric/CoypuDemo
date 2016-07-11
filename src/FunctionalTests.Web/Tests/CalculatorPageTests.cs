@@ -29,8 +29,6 @@ namespace FunctionalTests.Web.Tests
             [Test]
             public void Should_display_the_addition_result()
             {
-                base.CleanupBrowser = false;
-
                 RunTest(browser =>
                 {
                     var page = new CalculatorPage(browser);
@@ -41,7 +39,7 @@ namespace FunctionalTests.Web.Tests
                     page.Enter("222");
                     page.Enter("=");
 
-                    page.GetDisplayValue().ShouldEqual("333");
+                    page.GetDisplayValue().ShouldEqual("3334");
                 });
             }
         }

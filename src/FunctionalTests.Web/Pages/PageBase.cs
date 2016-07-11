@@ -7,8 +7,6 @@ namespace FunctionalTests.Web.Pages
 {
     public abstract class PageBase<TPage> where TPage : PageBase<TPage>
     {
-        private static readonly string SiteRootUrl = "http://localhost:52033";
-
         protected BrowserSession Browser { get; }
 
 
@@ -25,12 +23,12 @@ namespace FunctionalTests.Web.Pages
         /// </summary>
         protected abstract bool HasIdentifyingElements();
 
-        private string NavigateUrl => RelativeUrl.ForBaseUrl(SiteRootUrl);
+        private string NavigateUrl => RelativeUrl.ForBaseUrl(Configuration.SiteRootUrl);
 
         public TPage Visit()
         {
             Browser.Visit(NavigateUrl);
-            var expectedUrl = LocationVerificationUrl.ForBaseUrl(SiteRootUrl).Replace(".", @"\.");
+            var expectedUrl = LocationVerificationUrl.ForBaseUrl(Configuration.SiteRootUrl).Replace(".", @"\.");
             var currentLocation = Browser.Location.ToString();
 
             if (!Regex.IsMatch(currentLocation, expectedUrl))

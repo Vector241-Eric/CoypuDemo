@@ -4,7 +4,7 @@
     {
         public static string ForBaseUrl(this string relativeUrl, string baseUrl)
         {
-            return relativeUrl.Replace("~", baseUrl);
+            return relativeUrl.Replace("~", baseUrl.TrimEnd('/'));
         }
     }
 }
